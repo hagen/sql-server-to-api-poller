@@ -19,8 +19,8 @@ was last updated.
 Config to select the tables might look like this:
 ```json
 {    
-    "update_column" : "updated_at", // Global options, which can be over-ridden
-    "interval" : "5 * * * * * *", // Cron syntax
+    "update_column" : "updated_at",
+    "interval" : "5 * * * * * *",
     "tables" : [{
         "schema" : "dbo",
         "table" : "widgets",
