@@ -37,6 +37,9 @@ Config to select the tables might look like this:
     }]
 }
 ```
+* Global options, which can be over-ridden
+* Cron syntax
+
 Although the `tables` property could define each and every options for each and every table,
 it could make sense to have global options, which are over-ridden by the `tables` config. So,
 `updated_at` might be the default column to check here, but for the table dbo.widgets, the column
@@ -96,11 +99,14 @@ This should be a configurable option. Building on the config from before, this m
         "url" : "",
         "headers" : {
 
-        }, // All headers should be configurable, to support Auth and other Header-based mechanisms
+        }, 
         "method" : "post",
+    },    
+    "global" : {
+        "columns_to_lower" : true,
+        "update_column" : "updated_at"        
     },
-    "update_column" : "updated_at", // Global options, which can be over-ridden
-    "interval" : "5 * * * * * *", // Cron syntax
+    "interval" : "5 * * * * * *",
     "tables" : [{
         "schema" : "dbo",
         "table" : "widgets",
@@ -113,11 +119,17 @@ This should be a configurable option. Building on the config from before, this m
         "table" : "line_items"
     },{
         "schema" : "airport",
-        "table" : "flights"
+        "table" : "flights",
+        "columns_to_lower" : false
     }]
 }
 ```
-I imagine it'll closely mirror the _request npm module_ config, as you'll probably need to use request to push the data out.
+* All headers should be configurable, to support Auth and other Header-based mechanisms, 
+* Global options, which can be over-ridden
+* Transform column names to lower case
+* Cron syntax
+
+I imagine the API config will closely mirror the _request npm module_ config, as you'll probably need to use request to push the data out.
 
 ## POST body
 In order to send lots of records, they can be combined into a JSON array. However, the object POSTed
@@ -129,7 +141,7 @@ by the API. Another example:
     "table" : "table_name",
     "ran_at" : "<timestamp UTC>",
     "total_records" : 3,
-    "records" : [{ ... }, { ... }, { ... }]
+    "records" : [{ }, { }, { }]
 }
 ```
 Each object in the records collection, represents a single line in the table. Data types in the DB
