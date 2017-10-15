@@ -19,24 +19,28 @@ was last updated.
 Config to select the tables might look like this:
 ```json
 {    
-    update_column : 'updated_at', // Global options, which can be over-ridden
-    interval : '5 * * * * * *', // Cron syntax
-    tables : [{
-        schema: 'dbo',
-        table : 'widgets',
-        update_column : 'updated_ts'
+    "update_column" : "updated_at", // Global options, which can be over-ridden
+    "interval" : "5 * * * * * *", // Cron syntax
+    "tables" : [{
+        "schema" : "dbo",
+        "table" : "widgets",
+        "update_column" : "updated_ts"
     },{
-        schema: 'dbo',
-        table : 'invoices'
+        "schema" : "dbo",
+        "table" : "invoices"
     },{
-        schema: 'dbo',
-        table : 'line_items'
+        "schema" : "dbo",
+        "table" : "line_items"
     },{
-        schema: 'airport',
-        table : 'flights'
+        "schema" : "airport",
+        "table" : "flights"
     }]
 }
 ```
+Although the `tables` property could define each and every options for each and every table,
+it could make sense to have global options, which are over-ridden by the `tables` config. So,
+`updated_at` might be the default column to check here, but for the table dbo.widgets, the column
+to check is actually `updated_ts`.
 
 # Remembering _last run_
 Implementation is totally up to you, however, you probably need to remember the last time you checked
@@ -83,9 +87,37 @@ All updated records should be posted to an API endpoint. With a large volume of 
 one by one is not going to work. So for all processed records for a given table, these can be POSTed
 as a collection.
 ```CURL
-POST https://api.domain.tld/v1/arbitrary/path/to/service`
+POST https://api.domain.tld/v1/arbitrary/path/to/service
 ```
-This should be a configurable option.
+This should be a configurable option. Building on the config from before, this might now become:
+```json
+{    
+    "api" : {
+        "url" : "",
+        "headers" : {
+
+        }, // All headers should be configurable, to support Auth and other Header-based mechanisms
+        "method" : "post",
+    },
+    "update_column" : "updated_at", // Global options, which can be over-ridden
+    "interval" : "5 * * * * * *", // Cron syntax
+    "tables" : [{
+        "schema" : "dbo",
+        "table" : "widgets",
+        "update_column" : "updated_ts"
+    },{
+        "schema" : "dbo",
+        "table" : "invoices"
+    },{
+        "schema" : "dbo",
+        "table" : "line_items"
+    },{
+        "schema" : "airport",
+        "table" : "flights"
+    }]
+}
+```
+I imagine it'll closely mirror the _request npm module_ config, as you'll probably need to use request to push the data out.
 
 ## POST body
 In order to send lots of records, they can be combined into a JSON array. However, the object POSTed
@@ -93,11 +125,11 @@ must also include information about where the data has come from, which will dic
 by the API. Another example:
 ```JSON
 {
-    schema : "schema",
-    table : "table_name",
-    ran_at : <timestamp UTC>,
-    total_records : 3,
-    records : [{ ... }, { ... }, { ... }]
+    "schema" : "schema",
+    "table" : "table_name",
+    "ran_at" : "<timestamp UTC>",
+    "total_records" : 3,
+    "records" : [{ ... }, { ... }, { ... }]
 }
 ```
 Each object in the records collection, represents a single line in the table. Data types in the DB
