@@ -82,8 +82,11 @@ And so on, ad infinitum. At each run, total records processed, per table, should
 using Winston (npm package winston) to log to local file. NPM package forever can also be used, which 
 will route console output to local files. I'm happy with either.
 
-# Stop/start
-The service should pick up where it left off upon restart.
+# Start/stop/restart
+Starting the service should be done using _npm forever module_, or similar.
+The JSON config can reside in a local file. This should be read on every cron loop, and fed into
+the main module to run.
+The service should pick up where it left off upon restarting.
 
 # API endpoint
 All updated records should be posted to an API endpoint. With a large volume of records, posting
@@ -92,6 +95,7 @@ as a collection.
 ```CURL
 POST https://api.domain.tld/v1/arbitrary/path/to/service
 ```
+
 This should be a configurable option. Building on the config from before, this might now become:
 ```json
 {    
