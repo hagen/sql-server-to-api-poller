@@ -1,0 +1,13 @@
+dist/
+staging/
+*node_modules*
+*secrets.js
+*.zip
+*.log
+!src/ui5/*/resources/sap/ui/core/AppCacheBuster.js
+!src/ui5/*/resources/sap/ui/core/AppCacheBuster-dbg.js
+src/ui5/*
+src/resources/*
+.vscode
+config/
+*.xlsx

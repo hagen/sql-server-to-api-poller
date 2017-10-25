@@ -1,0 +1,1 @@
+node --inspect-brk ./src/sql_poller_forever.js

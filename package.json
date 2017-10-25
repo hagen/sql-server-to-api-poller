@@ -1,0 +1,30 @@
+{
+  "name": "sql-server-to-api-poller",
+  "version": "1.0.0",
+  "description": "SQL Poller, pushes changes to REST endpoint",
+  "main": "server.js",
+  "scripts": {
+    "test": "test.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hagen/sql-server-to-api-poller.git"
+  },
+  "author": "Evan & Hagen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hagen/sql-server-to-api-poller/issues"
+  },
+  "homepage": "https://github.com/hagen/sql-server-to-api-poller#readme",
+  "dependencies": {
+    "aws-sdk": "^2.140.0",
+    "cron": "^1.3.0",
+    "forever-monitor": "^1.7.1",
+    "fs": "0.0.1-security",
+    "lodash": "^4.17.4",
+    "moment": "^2.19.1",
+    "mssql": "^4.1.0",
+    "winston": "^2.4.0"
+  }
+}
